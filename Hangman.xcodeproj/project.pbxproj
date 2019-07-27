@@ -12,6 +12,7 @@
 		725F05EF22EB572600672BCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 725F05ED22EB572600672BCC /* Main.storyboard */; };
 		725F05F122EB572700672BCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 725F05F022EB572700672BCC /* Assets.xcassets */; };
 		725F05F422EB572700672BCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 725F05F222EB572700672BCC /* LaunchScreen.storyboard */; };
+		725F060222EB589C00672BCC /* Mots.txt in Resources */ = {isa = PBXBuildFile; fileRef = 725F060122EB589C00672BCC /* Mots.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		725F05F022EB572700672BCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		725F05F322EB572700672BCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		725F05F522EB572700672BCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		725F060122EB589C00672BCC /* Mots.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Mots.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				725F05EB22EB572600672BCC /* ViewController.swift */,
 				725F05ED22EB572600672BCC /* Main.storyboard */,
 				725F05F022EB572700672BCC /* Assets.xcassets */,
+				725F060122EB589C00672BCC /* Mots.txt */,
 				725F05F222EB572700672BCC /* LaunchScreen.storyboard */,
 				725F05F522EB572700672BCC /* Info.plist */,
 			);
@@ -123,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				725F05F422EB572700672BCC /* LaunchScreen.storyboard in Resources */,
+				725F060222EB589C00672BCC /* Mots.txt in Resources */,
 				725F05F122EB572700672BCC /* Assets.xcassets in Resources */,
 				725F05EF22EB572600672BCC /* Main.storyboard in Resources */,
 			);
