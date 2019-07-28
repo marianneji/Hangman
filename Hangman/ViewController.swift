@@ -34,6 +34,8 @@ class ViewController: UIViewController {
         }
     }
     
+    var level = 1
+    
     override func loadView() {
         view = UIView()
         view.backgroundColor = .black
@@ -158,15 +160,10 @@ class ViewController: UIViewController {
         //        performSelector(inBackground: #selector(loadWords), with: nil)
     }
     
-    fileprivate func endGameAlert(title: String, message: String) {
-        let ac = UIAlertController(title: title , message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "New Game", style: .default, handler: newGame))
-        present(ac, animated: true)
-    }
     
     func loadWords() {
         
-        if let wordsFileUrl = Bundle.main.url(forResource: "Mots", withExtension: "txt") {
+        if let wordsFileUrl = Bundle.main.url(forResource: "Words\(level)", withExtension: "txt") {
             if let wordsFileContent = try? String(contentsOf: wordsFileUrl) {
                 var word = wordsFileContent.components(separatedBy: "\n")
                 word.removeLast()
@@ -209,7 +206,7 @@ class ViewController: UIViewController {
                 usedWords.append(wordToGuess)
                 score += 1
                 if score == currentWord.count {
-                    endGameAlert(title: "Waouh", message: "You won!")
+                    levelUpAlert()
                 }
                 
             }
@@ -223,6 +220,26 @@ class ViewController: UIViewController {
             }
         }
     }
+    fileprivate func endGameAlert(title: String, message: String) {
+        let ac = UIAlertController(title: title , message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "New Game", style: .default, handler: newGame))
+        present(ac, animated: true)
+    }
+    fileprivate func levelUpAlert() {
+        let ac = UIAlertController(title: "You made it!" , message: "Ready for the next level?", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: levelUp))
+        present(ac, animated: true)
+    }
+    
+    @objc func levelUp(action: UIAlertAction) {
+        wrongGuess = 0
+        index = 0
+        score = 0
+        level += 1
+        currentWord.removeAll(keepingCapacity: true)
+        loadWords()
+    }
+    
     
     fileprivate func usedWordsMethod() {
         if usedWords.contains(wordToGuess) {
