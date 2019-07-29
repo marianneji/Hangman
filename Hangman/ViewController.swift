@@ -13,15 +13,21 @@ class ViewController: UIViewController {
     var titleLabel: UILabel!
     var wrongGuessLabel: UILabel!
     var scoreLabel: UILabel!
-    var selectedLetter: UILabel!
+    var selectedLetterLabel: UILabel!
     var wordToGuessLabel: UILabel!
     var lettersButtons = [UIButton]()
     var nextButton: UIButton!
+    var rulesButton: UIButton!
     
-    var currentWord = [String]()
+    var currentWord = [String]() {
+        didSet {
+            scoreLabel.text = "Score: \(score)/\(currentWord.count)"
+        }
+    }
     var usedWords = [String]()
     var index = 0
     var wordToGuess = "femme"
+    var level = 1
     
     var wrongGuess = 0 {
         didSet {
@@ -30,15 +36,21 @@ class ViewController: UIViewController {
     }
     var score = 0 {
         didSet {
-            scoreLabel.text = "Score: \(score)"
+            scoreLabel.text = "Score: \(score)/\(currentWord.count)"
         }
     }
-    
-    var level = 1
     
     override func loadView() {
         view = UIView()
         view.backgroundColor = .black
+        
+        rulesButton = UIButton()
+        rulesButton.translatesAutoresizingMaskIntoConstraints = false
+        rulesButton.setTitle("?", for: .normal)
+        rulesButton.setTitleColor(.white, for: .normal)
+        rulesButton.titleLabel?.font = UIFont.systemFont(ofSize: 40)
+        rulesButton.isHidden = false
+        view.addSubview(rulesButton)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +73,7 @@ class ViewController: UIViewController {
         nextButton.setTitleColor(.black, for: .normal)
         nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         nextButton.setTitle("Next", for: .normal)
-        nextButton.backgroundColor = .white
+        nextButton.backgroundColor = .green
         nextButton.titleLabel?.textAlignment = .center
         nextButton.isHidden = false
         view.addSubview(nextButton)
@@ -70,18 +82,17 @@ class ViewController: UIViewController {
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
         scoreLabel.textColor = .white
         scoreLabel.font = UIFont.systemFont(ofSize: 20)
-        scoreLabel.text = "Score: 0"
+        
         view.addSubview(scoreLabel)
         
-        selectedLetter = UILabel()
-        selectedLetter.translatesAutoresizingMaskIntoConstraints = false
-        selectedLetter.text = "A"
-        selectedLetter.textAlignment = .center
-        selectedLetter.font = UIFont.systemFont(ofSize: 30)
-        selectedLetter.backgroundColor = .white
-        selectedLetter.isHidden = true
-        //        selectedLetter.setContentHuggingPriority(UILayoutPriority(1), for: .vertical)
-        view.addSubview(selectedLetter)
+        selectedLetterLabel = UILabel()
+        selectedLetterLabel.translatesAutoresizingMaskIntoConstraints = false
+        selectedLetterLabel.text = "A"
+        selectedLetterLabel.textAlignment = .center
+        selectedLetterLabel.font = UIFont.systemFont(ofSize: 30)
+        selectedLetterLabel.backgroundColor = .white
+        selectedLetterLabel.isHidden = true
+        view.addSubview(selectedLetterLabel)
         
         wordToGuessLabel = UILabel()
         wordToGuessLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +100,6 @@ class ViewController: UIViewController {
         wordToGuessLabel.text = "?????"
         wordToGuessLabel.textColor = .white
         wordToGuessLabel.textAlignment = .center
-        //        wordToGuess.setContentHuggingPriority(UILayoutPriority(1), for: .vertical)
         view.addSubview(wordToGuessLabel)
         
         let buttonsView = UIView()
@@ -101,19 +111,21 @@ class ViewController: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            rulesButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -20),
+            rulesButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: -5),
+//            rulesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             wrongGuessLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            wrongGuessLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             scoreLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             scoreLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            wrongGuessLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            selectedLetter.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            selectedLetter.bottomAnchor.constraint(equalTo: wordToGuessLabel.topAnchor, constant: -50),
-            selectedLetter.heightAnchor.constraint(equalToConstant: 44),
-            selectedLetter.widthAnchor.constraint(equalToConstant: 44),
+            selectedLetterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            selectedLetterLabel.bottomAnchor.constraint(equalTo: wordToGuessLabel.topAnchor, constant: -50),
+            selectedLetterLabel.heightAnchor.constraint(equalToConstant: 44),
+            selectedLetterLabel.widthAnchor.constraint(equalToConstant: 44),
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nextButton.bottomAnchor.constraint(equalTo: wordToGuessLabel.topAnchor, constant: -50),
             nextButton.heightAnchor.constraint(equalToConstant: 44),
             nextButton.widthAnchor.constraint(equalToConstant: 80),
-            //            wordToGuess.topAnchor.constraint(equalTo: selectedLetter.bottomAnchor, constant: 20),
             wordToGuessLabel.heightAnchor.constraint(equalToConstant: 40),
             wordToGuessLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             buttonsView.heightAnchor.constraint(equalToConstant: 88),
@@ -124,7 +136,7 @@ class ViewController: UIViewController {
             ])
         
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        
+        rulesButton.addTarget(self, action: #selector(rulesButtonTapped), for: .touchUpInside)
         
         let width = 44
         let height = 44
@@ -156,10 +168,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        rulesAlert()
         loadWords()
+        scoreLabel.text = "Score: 0/\(currentWord.count)"
+        
         //        performSelector(inBackground: #selector(loadWords), with: nil)
     }
-    
     
     func loadWords() {
         
@@ -168,13 +182,12 @@ class ViewController: UIViewController {
                 var word = wordsFileContent.components(separatedBy: "\n")
                 word.removeLast()
                 word.shuffle()
-                
                 wordToGuess = word[index]
                 usedWordsMethod()
                 currentWord = word
                 print(wordToGuess)
                 wrongGuess = 0
-                wordToGuessLabel.text = String.init(repeating: "?", count: wordToGuess.count)
+                wordToGuessLabel.text = String.init(repeating: "-", count: wordToGuess.count)
                 nextButton.isHidden = true
                 
                 for button in lettersButtons {
@@ -184,11 +197,26 @@ class ViewController: UIViewController {
         }
     }
     
+    fileprivate func success() {
+        if wordToGuessLabel.text == wordToGuess {
+            selectedLetterLabel.isHidden = true
+            nextButton.isHidden = false
+            usedWords.append(wordToGuess)
+            score += 1
+            if level == 3 && score == currentWord.count {
+                endGameAlert(title: "You made it to level\(level)", message: "let's play another one!")
+                
+            } else if score == currentWord.count {
+                levelUpAlert()
+            }
+        }
+    }
+    
     @objc func letterTapped(_ sender: UIButton) {
         guard let letter = sender.titleLabel?.text else { return }
         nextButton.isHidden = true
-        selectedLetter.isHidden = false
-        selectedLetter.text = letter
+        selectedLetterLabel.isHidden = false
+        selectedLetterLabel.text = letter
         
         if wordToGuess.contains(letter) {
             var bits = wordToGuessLabel.text?.map {$0.uppercased()}
@@ -200,18 +228,7 @@ class ViewController: UIViewController {
             wordToGuessLabel.text = bits?.joined()
             sender.isHidden = true
             
-            if wordToGuessLabel.text == wordToGuess {
-                selectedLetter.isHidden = true
-                nextButton.isHidden = false
-                usedWords.append(wordToGuess)
-                score += 1
-                if score == currentWord.count {
-                    levelUpAlert()
-                }
-                
-            }
-            
-            
+            success()
         } else {
             sender.isHidden = true
             wrongGuess += 1
@@ -220,6 +237,13 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    fileprivate func rulesAlert() {
+        let ac = UIAlertController(title: "Trouve le mot caché sous les - en tapant sur les lettres.", message: "Tu as le droit à 7 erreurs", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(ac, animated: true)
+    }
+    
     fileprivate func endGameAlert(title: String, message: String) {
         let ac = UIAlertController(title: title , message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "New Game", style: .default, handler: newGame))
@@ -232,14 +256,9 @@ class ViewController: UIViewController {
     }
     
     @objc func levelUp(action: UIAlertAction) {
-        wrongGuess = 0
-        index = 0
-        score = 0
         level += 1
-        currentWord.removeAll(keepingCapacity: true)
-        loadWords()
+        loadGame()
     }
-    
     
     fileprivate func usedWordsMethod() {
         if usedWords.contains(wordToGuess) {
@@ -250,17 +269,26 @@ class ViewController: UIViewController {
     @objc func nextButtonTapped(_ sender: UIButton) {
         nextButton.isHidden = false
         loadWords()
-//        usedWordsMethod()
     }
     
-    @objc func newGame(action: UIAlertAction) {
+    @objc func rulesButtonTapped(_ sender: UIButton) {
+        rulesAlert()
+    }
+    
+    fileprivate func loadGame() {
         nextButton.isHidden = true
-        selectedLetter.isHidden = true
+        selectedLetterLabel.isHidden = true
         score = 0
         wrongGuess = 0
         index = 0
-        usedWords.removeAll(keepingCapacity: true)
+        currentWord.removeAll(keepingCapacity: true)
+        usedWords.removeAll()
         loadWords()
+    }
+    
+    @objc func newGame(action: UIAlertAction) {
+        level = 1
+        loadGame()
     }
 }
 
