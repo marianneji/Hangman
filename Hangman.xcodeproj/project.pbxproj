@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		720021F122EE262300BBAA7E /* Words2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 720021F022EE262300BBAA7E /* Words2.txt */; };
+		720021F322EE398000BBAA7E /* Words3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 720021F222EE398000BBAA7E /* Words3.txt */; };
 		725F05EA22EB572600672BCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725F05E922EB572600672BCC /* AppDelegate.swift */; };
 		725F05EC22EB572600672BCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725F05EB22EB572600672BCC /* ViewController.swift */; };
 		725F05EF22EB572600672BCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 725F05ED22EB572600672BCC /* Main.storyboard */; };
@@ -17,8 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		720021ED22EE220700BBAA7E /* Words3.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Words3.txt; sourceTree = "<group>"; };
 		720021F022EE262300BBAA7E /* Words2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Words2.txt; sourceTree = "<group>"; };
+		720021F222EE398000BBAA7E /* Words3.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Words3.txt; sourceTree = "<group>"; };
 		725F05E622EB572600672BCC /* Hangman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hangman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		725F05E922EB572600672BCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		725F05EB22EB572600672BCC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,8 +65,8 @@
 				725F05ED22EB572600672BCC /* Main.storyboard */,
 				725F05F022EB572700672BCC /* Assets.xcassets */,
 				725F060122EB589C00672BCC /* Words1.txt */,
+				720021F222EE398000BBAA7E /* Words3.txt */,
 				720021F022EE262300BBAA7E /* Words2.txt */,
-				720021ED22EE220700BBAA7E /* Words3.txt */,
 				725F05F222EB572700672BCC /* LaunchScreen.storyboard */,
 				725F05F522EB572700672BCC /* Info.plist */,
 			);
@@ -130,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				720021F322EE398000BBAA7E /* Words3.txt in Resources */,
 				725F05F422EB572700672BCC /* LaunchScreen.storyboard in Resources */,
 				725F060222EB589C00672BCC /* Words1.txt in Resources */,
 				720021F122EE262300BBAA7E /* Words2.txt in Resources */,
