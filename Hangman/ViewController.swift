@@ -287,6 +287,7 @@ class ViewController: UIViewController {
     }
     
     @objc func newGame(action: UIAlertAction) {
+        rulesAlert()
         level = 1
         loadGame()
     }
